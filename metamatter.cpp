@@ -128,10 +128,30 @@ void MetaMatter::add_capability_sense_pressure(uint16_t min, uint16_t max) {
   this->capabilities |= sense_pressure;
 }
 
-void MetaMatter::add_capability_sense_humidity() {}
+void MetaMatter::add_capability_sense_humidity(uint16_t min, uint16_t max) {
+  if (this->capabilities & (1 << sense_humidity)) {
+    ESP_LOGE("MetaMatter", "Already has sense pressure capability!");
+    return;
+  }
+	cluster::relative_humidity_measurement::config_t sense_humidity_config;
+	sense_humidity_config.min_measured_value = min;
+	sense_humidity_config.max_measured_value = max;
+	cluster::relative_humidity_measurement::create(this->endpoint, &sense_humidity_config, CLUSTER_FLAG_SERVER);
+  this->capabilities |= sense_humidity;
+}
+
 void MetaMatter::add_capability_sense_occupancy() {}
 void MetaMatter::add_capability_sense_alarm() {}
-void MetaMatter::add_capability_sense_air_quality() {}
+
+void MetaMatter::add_capability_sense_air_quality() {
+  if (this->capabilities & (1 << sense_air_quality)) {
+    ESP_LOGE("MetaMatter", "Already has sense pressure capability!");
+    return;
+  }
+	cluster::air_quality::config_t sense_air_quality_config;
+	cluster::air_quality::create(this->endpoint, &sense_air_quality_config, CLUSTER_FLAG_SERVER);
+  this->capabilities |= sense_air_quality;
+}
 
 void MetaMatter::add_capability_light_color(hsv_t default_color) {
 	cluster::color_control::config_t light_color_config;

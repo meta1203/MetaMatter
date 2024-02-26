@@ -1,9 +1,9 @@
 #pragma once
+
 #include "color/color.h"
 
 #include <esp_err.h>
 #include <esp_matter.h>
-
 
 using namespace esp_matter;
 
@@ -40,7 +40,7 @@ namespace metamatter {
       void add_capability_sense_brightness(uint16_t min, uint16_t max);
       void add_capability_sense_temperature(int16_t min, int16_t max);
       void add_capability_sense_pressure(uint16_t min, uint16_t max);
-      void add_capability_sense_humidity();
+      void add_capability_sense_humidity(uint16_t min, uint16_t max);
       void add_capability_sense_occupancy();
       void add_capability_sense_alarm();
       void add_capability_sense_air_quality();
